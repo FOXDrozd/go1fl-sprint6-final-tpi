@@ -31,3 +31,4 @@ mux := http.NewServeMux()
 
 	return &Server{Logger: log, Server: httpServer}
 }
+
