@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/service"
+	"go1fl-sprint6-final/internal/service"
 )
 
 
@@ -27,7 +27,7 @@ func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
 
 	defer 
 
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
 }

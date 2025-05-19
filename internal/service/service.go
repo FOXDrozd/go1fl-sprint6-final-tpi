@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/Yandex-Practicum/go1fl-sprint6-final/pkg/morse"
+	"go1fl-sprint6-final/pkg/morse"
 )
 
 var (
