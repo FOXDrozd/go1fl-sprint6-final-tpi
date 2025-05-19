@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
 	"time"
 
 	"go1fl-sprint6-final/internal/service"
@@ -13,26 +12,18 @@ import (
 
 
 func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
-	currencyDir, err := os.Getwd()
-
-	if err != nil {
-		fmt.Printf("Error Getwd in getHtmlFormat %s\n",err.Error())
+	if r.Method != http.MethodGet {
+		http.Error(w, "No correction method", http.StatusBadRequest)
 	}
 
-	data, err := os.ReadFile(filepath.Join( filepath.Dir(currencyDir), "index.html"))
-
-	if err != nil {
-		fmt.Printf("Error read file index.html %s\n", err.Error())
-	}
-
-	defer 
-
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+    http.ServeFile(w, r, "./index.html")
 }
 
 func UploadFile(w http.ResponseWriter, r *http.Request){
+	if r.Method != http.MethodPost {
+		http.Error(w, "No correction method", http.StatusBadRequest)
+	}
+
 	fileUploaded, _, err := r.FormFile("myFile")
   	defer fileUploaded.Close()
 
@@ -54,9 +45,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 		fmt.Printf("Check data: %s", err.Error())
 	}
 
-	currencyDir, err := os.Getwd()
-
-	file, err := os.OpenFile(filepath.Join(filepath.Dir(currencyDir), time.Now().UTC().Format("02-01-2006 03-04-05")), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
+	file, err := os.OpenFile(time.Now().UTC().Format("02-01-2006 03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
 		fmt.Printf("Error read file: %s", err.Error())

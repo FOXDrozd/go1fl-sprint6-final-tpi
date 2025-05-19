@@ -13,11 +13,10 @@ var (
 
 func checkStringMorse(s string) bool{
 	s = strings.TrimSpace(s)
-	for _, ch := range s {
-		if !strings.ContainsRune(".- ", ch){
-			return false
-		}
+	f := func(r rune) bool {
+		return strings.ContainsRune(".- ", r)
 	}
+	strings.ContainsFunc(s, f)
 
 	return true
 }
