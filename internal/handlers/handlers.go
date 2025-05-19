@@ -43,12 +43,14 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 
 	if err != nil {
 		fmt.Printf("Check data: %s", err.Error())
+		return 
 	}
 
 	file, err := os.OpenFile(time.Now().UTC().Format("02-01-2006 03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
 		fmt.Printf("Error read file: %s", err.Error())
+		return
 	}
 
 
