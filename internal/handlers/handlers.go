@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -42,14 +41,14 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 	str, err := service.FormatData(string(data)) 
 
 	if err != nil {
-		fmt.Printf("Check data: %s", err.Error())
+		http.Error(w,"Check data: %s",  http.StatusBadRequest)
 		return 
 	}
 
 	file, err := os.OpenFile(time.Now().UTC().Format("02-01-2006 03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
-		fmt.Printf("Error read file: %s", err.Error())
+		http.Error(w, "Error read file", http.StatusBadRequest)
 		return
 	}
 
@@ -59,6 +58,6 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 	_, err = file.WriteString(str) 
 
 	if err != nil {
-		fmt.Printf("Error write file: %s", err.Error())
+		http.Error(w,"Error write file",  http.StatusBadRequest)
 	}
 }
