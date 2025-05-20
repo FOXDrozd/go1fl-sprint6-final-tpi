@@ -46,7 +46,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 		return 
 	}
 
-	file, err := os.OpenFile(time.Now().UTC().Format("02-01_03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
+	file, err := os.OpenFile(time.Now().UTC().Format("03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
 		http.Error(w, "Error read file", http.StatusBadRequest)

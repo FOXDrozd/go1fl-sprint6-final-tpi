@@ -36,7 +36,7 @@ func FormatData(s string) (str string, err error){
 	}
 
 	f := func(r rune) bool {
-		return strings.ContainsRune(".- ", r)
+		return strings.ContainsRune(".-", r)
 	}
 	 
 	if strings.ContainsFunc(s, f) {
