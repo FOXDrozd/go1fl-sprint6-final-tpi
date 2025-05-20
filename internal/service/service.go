@@ -12,12 +12,18 @@ var (
 )
 
 func checkStringMorse(s string) bool{
+	flag := true
 	s = strings.TrimSpace(s)
-	f := func(r rune) bool {
-		return strings.ContainsRune(".- ", r)
+	for _, ch := range s {		
+		if !strings.ContainsRune(".- ", ch){
+			flag = flag && false
+		}
 	}
-	return strings.ContainsFunc(s, f)
+
+	return flag
 }
+
+
 
 func FormatData(s string) (str string, err error){
 	if len(s) == 0 {
@@ -27,6 +33,14 @@ func FormatData(s string) (str string, err error){
 
 	if isMorse {
 		return morse.ToText(s), nil 
+	}
+
+	f := func(r rune) bool {
+		return strings.ContainsRune(".- ", r)
+	}
+	 
+	if strings.ContainsFunc(s, f) {
+		return s, NotInvalidString
 	}
 
 	return morse.ToMorse(s), nil

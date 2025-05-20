@@ -42,7 +42,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 	str, err := service.FormatData(string(data)) 
 
 	if err != nil {
-		http.Error(w,"Check data: %s",  http.StatusBadRequest)
+		http.Error(w,"Check data",  http.StatusBadRequest)
 		return 
 	}
 
