@@ -16,9 +16,7 @@ func checkStringMorse(s string) bool{
 	f := func(r rune) bool {
 		return strings.ContainsRune(".- ", r)
 	}
-	strings.ContainsFunc(s, f)
-
-	return true
+	return strings.ContainsFunc(s, f)
 }
 
 func FormatData(s string) (str string, err error){
