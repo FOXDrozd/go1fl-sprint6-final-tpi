@@ -36,6 +36,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 
 	if err != nil {
 		http.Error(w, "Not read file", http.StatusInternalServerError)
+		return
 	}
 
 	str, err := service.FormatData(string(data)) 
@@ -59,5 +60,6 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 
 	if err != nil {
 		http.Error(w,"Error write file",  http.StatusBadRequest)
+		return
 	}
 }
