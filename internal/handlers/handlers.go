@@ -28,28 +28,28 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 
 
 	if err != nil {
-		http.Error(w, "Error get file", http.StatusBadRequest)
+		http.Error(w,err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	data, err := io.ReadAll(fileUploaded)
 
 	if err != nil {
-		http.Error(w, "Not read file", http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	str, err := service.FormatData(string(data)) 
 
 	if err != nil {
-		http.Error(w,"Check data",  http.StatusBadRequest)
+		http.Error(w,err.Error(),  http.StatusBadRequest)
 		return 
 	}
 
 	file, err := os.OpenFile(time.Now().UTC().Format("03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
-		http.Error(w, "Error read file", http.StatusBadRequest)
+		http.Error(w,err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -59,7 +59,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 	_, err = file.WriteString(str) 
 
 	if err != nil {
-		http.Error(w,"Error write file",  http.StatusBadRequest)
+		http.Error(w, err.Error(),  http.StatusBadRequest)
 		return
 	}
 }
