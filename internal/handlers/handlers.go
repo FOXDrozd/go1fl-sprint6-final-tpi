@@ -13,6 +13,7 @@ import (
 func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodGet {
 		http.Error(w, "No correction method", http.StatusBadRequest)
+		return
 	}
 
     http.ServeFile(w, r, "./index.html")
@@ -21,6 +22,7 @@ func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
 func UploadFile(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodPost {
 		http.Error(w, "No correction method", http.StatusBadRequest)
+		return
 	}
 
 	fileUploaded, _, err := r.FormFile("myFile")
