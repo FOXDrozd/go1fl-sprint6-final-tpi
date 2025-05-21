@@ -1,1 +1,71 @@
 package handlers
+
+import (
+	"io"
+	"net/http"
+	"os"
+	"time"
+
+	"go1fl-sprint6-final/internal/service"
+)
+
+
+func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusBadRequest)
+		return
+	}
+
+    http.ServeFile(w, r, "./index.html")
+}
+
+func UploadFile(w http.ResponseWriter, r *http.Request){
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusBadRequest)
+		return
+	}
+
+	fileUploaded, _, err := r.FormFile("myFile")
+	defer fileUploaded.Close()
+  
+
+
+	if err != nil {
+		http.Error(w,err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	data, err := io.ReadAll(fileUploaded)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	str, err := service.FormatData(string(data)) 
+
+	if err != nil {
+		http.Error(w,err.Error(),  http.StatusBadRequest)
+		return 
+	}
+
+	file, err := os.OpenFile(time.Now().UTC().Format("2006-01-02_15-04-05") + ".txt", os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
+
+	if err != nil {
+		http.Error(w,err.Error(), http.StatusBadRequest)
+		return
+	}
+
+
+	defer file.Close()
+
+	_, err = file.WriteString(str) 
+
+	if err != nil {
+		http.Error(w, err.Error(),  http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(str))
+}
