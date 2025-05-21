@@ -12,7 +12,7 @@ import (
 
 func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodGet {
-		http.Error(w, "No correction method", http.StatusBadRequest)
+		http.Error(w, "Method not allowed", http.StatusBadRequest)
 		return
 	}
 
@@ -21,12 +21,13 @@ func GetHtmlFormat(w http.ResponseWriter, r *http.Request){
 
 func UploadFile(w http.ResponseWriter, r *http.Request){
 	if r.Method != http.MethodPost {
-		http.Error(w, "No correction method", http.StatusBadRequest)
+		http.Error(w, "Method not allowed", http.StatusBadRequest)
 		return
 	}
 
 	fileUploaded, _, err := r.FormFile("myFile")
-  	defer fileUploaded.Close()
+	defer fileUploaded.Close()
+  
 
 
 	if err != nil {
@@ -48,7 +49,7 @@ func UploadFile(w http.ResponseWriter, r *http.Request){
 		return 
 	}
 
-	file, err := os.OpenFile(time.Now().UTC().Format("03-04-05"), os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
+	file, err := os.OpenFile(time.Now().UTC().Format("2006-01-02_15-04-05") + ".txt", os.O_CREATE | os.O_APPEND | os.O_RDWR, 0755)
 
 	if err != nil {
 		http.Error(w,err.Error(), http.StatusBadRequest)

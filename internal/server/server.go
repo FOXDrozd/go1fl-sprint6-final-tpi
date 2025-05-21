@@ -14,8 +14,7 @@ type Server struct{
 }
 
 func CreateHttpRouter(log *log.Logger) *Server{
-mux := http.NewServeMux()
-
+	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", handlers.GetHtmlFormat)
 	mux.HandleFunc("/upload", handlers.UploadFile)
